@@ -4,6 +4,33 @@ An experimental, custom-designed micro-quadcopter built around two stacked PCBs:
 
 This repository documents the **1S design**, including its hardware files and limitations.
 
+<p align="center">
+  <a href="assets/E-assembly.png"><img src="assets/E-assembly.png" width="600" alt="3D render of the assembled PCB stack, with the ESC above the FCU"></a>
+  <br>
+  <strong>Board Stack</strong>
+  <br>
+  <sub>The 4-in-1 ESC plugs onto the flight controller from above.</sub>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="assets/FCU.png"><img src="assets/FCU.png" width="400" alt="3D render of the FCU board with its RP2040, SX1280 radio, and BMI270 sensor"></a>
+      <br>
+      <strong>Flight controller</strong>
+      <br>
+      <sub>RP2040, SX1280 ELRS radio, and Bosch BMI270.</sub>
+    </td>
+    <td align="center" width="50%">
+      <a href="assets/ESC.png"><img src="assets/ESC.png" width="400" alt="3D render of the four-channel ESC board and its motor connectors"></a>
+      <br>
+      <strong>4-in-1 ESC</strong>
+      <br>
+      <sub>Four AM32 channels, four motors.</sub>
+    </td>
+  </tr>
+</table>
+</p>
+
+
 ## Hardware overview
 
 | Subsystem | Implementation |
@@ -21,7 +48,7 @@ This repository documents the **1S design**, including its hardware files and li
 
 The **FCU board (`RP2040-FPV`)** handles flight control, radio communication, and motion sensing. The SX1280 radio and BMI270 sensor connect directly to the RP2040 over separate SPI buses. The board also includes USB-C, battery-voltage sensing, an RGB status LED, BOOTSEL/reset/user buttons, and an SWD debugging connector.
 
-The **upper ESC board (`ESC-FPV`)** drives four three-phase brushless motors. Its hierarchical schematic repeats `MotorDriverChannel.SchDoc` four times. Each channel has its own STM32 running AM32, an MP6531A gate driver, six MOSFETs, and back-EMF sensing. The FCU sends one DShot signal to each channel; each motor has a separate three-pin phase connector.
+The **upper ESC board (`ESC-FPV`)** drives four three-phase brushless motors. Each channel has its own STM32 running AM32, an MP6531A gate driver and three half-bridges made up of six MOSFETs. The FCU sends one DShot signal to each channel; each motor has a separate three-pin phase connector.
 
 ```mermaid
 flowchart LR
@@ -38,7 +65,7 @@ flowchart LR
     Battery --> ESC
 ```
 
-The boards share **VBAT and GND**, while their regulated supplies remain separate. The FCU selects battery or USB power and generates its own 3.3 V supply. The ESC boosts battery voltage to 5 V for its gate drivers, then regulates that to 3.3 V for its MCUs; the motor bridges run directly from VBAT. With only USB connected, the FCU is powered and the ESC is off, so FCU firmware must avoid driving DShot into the unpowered ESC. UART, I2C, and an ADC signal are also brought to the stack headers but are currently unused on the ESC.
+The boards share **VBAT and GND**, while their regulated supplies remain separate. The FCU selects battery or USB power and generates its own 3.3 V supply. The ESC boosts battery voltage to 5 V for its gate drivers, then regulates that to 3.3 V for its MCUs; the motor bridges run directly from VBAT. With only USB connected, the FCU is powered and the ESC is off, so _FCU firmware should avoid driving DShot into the unpowered ESC_. UART, I2C, and an ADC signal are also brought to the stack headers but are currently unused on the ESC.
 
 ## Design files
 
