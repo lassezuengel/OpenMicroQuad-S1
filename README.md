@@ -193,9 +193,16 @@ The output can be found in `obj/AM32_ESC_FPV_G071_2.21.bin`. If you have already
 
 ## Measurements
 
-TBA
+<p align="center">
+  <!-- The 4:3 photo and 3:4 thermal image need 64:36 widths for equal heights. Keep the links adjacent so both fit on one line. -->
+  <a href="assets/setup-stationary.png"><img src="assets/setup-stationary.png" width="64%" alt="Stationary setup with the flight controller and ESC"></a><a href="assets/thermal_cam_64W_4A.png"><img src="assets/thermal_cam_64W_4A.png" width="36%" alt="Thermal image of the 4-in-1 ESC at 64W power consumption and 4A current"></a>
+  <br>
+  <sub><strong>Left:</strong> Drone setup at 18°C ambient temperature. BetaFPV 22KV motors and Air75 freestyle props.</sub>
+  <br>
+  <sub><strong>Right:</strong> Thermal image of the 4-in-1 ESC at 64W power consumption and 4A current.</sub>
+</p>
 
-We can typically see 64W total power draw at full throttle at 4V battery voltage, which is about 16W (4A) per motor. Our ESC is designed to handle 8A continuously and can probably easily handle 10-15A per channel, so we have plenty of headroom. PCB temperature (stationary, no airflow) is about 35°C at full throttle, and the MOSFET peak at about 45°C. In flight, due to much stronger airflow and thus convective cooling, we expect the PCB and MOSFETs to run even cooler. No issues here.
+We can typically see 64W total power draw at full throttle at 4V battery voltage, which is about 16W (4A) per motor. Our ESC is designed to handle 8A continuously and can probably easily handle 10-15A per channel, so we have plenty of headroom. PCB temperature (stationary, no airflow) is about 35°C at full throttle, and the MOSFET hotspot temperature is about 45°C. The 1.25mm PicoBlade motor connectors are the bottleneck here, with sometimes as much as 75°C at the connector itself (60°C typical). In flight, due to much stronger airflow and thus convective cooling, we expect the PCB and MOSFETs to run even cooler. No issues here.
 
 ## Limitations
 
@@ -210,6 +217,10 @@ The tradeoff is more PCB mass and board space than you'd normally see on a tinyw
 ### FCU performance
 
 A goal of this project was to simply test how well an RP2040 would perform in a drone application (and add support to Betaflight). The RP2040 offers less processing headroom for demanding flight-control configurations than more powerful MCUs, and it has no built-in floating-point unit. The RP2040 is still a very capable MCU, but it may not be the best choice for a high-performance flight controller. We can easily fly drones in acro mode with 1.6kHz PID loops, but we may run into performance issues with more complex flight-control algorithms, higher loop rates, or when also using the accelerometer (e.g., when using angle or horizon modes). 3.2kHz PID loops are out of the question. The RP2350 already has Betaflight firmware support, and it would be interesting to see how well it performs in a similar drone application.
+
+### Thermal performance
+´#
+The ESC is designed to handle 8A continuously, and the half bridges handle this with ease. However, the 1.25mm PicoBlade connectors (taken from the Air75 design for compatibility) are the bottleneck here, and we might want to consider soldering the motors to the ESC directly. This is not strictly necessary even with higher current draws and also a bit inconvenient, but we can certainly add the SMD pads even if we don't use them.
 
 ### Are we FPV yet?
 
