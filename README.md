@@ -106,7 +106,7 @@ If you don't want to build the Betaflight firmware yourself, see the `/bin` dire
 
 #### Building Betaflight for the RP2040-FPV board
 
-See the fork [here](https://github.com/lassezuengel/betaflight). You can build the firmware for the RP2040-FPV board using the `RP2040-FPV` target in Betaflight. The firmware is configured for a 1S battery, SX1280 ELRS radio, and BMI270 sensor.
+See the fork [here](https://github.com/lassezuengel/betaflight). You can build the firmware for the RP2040-FPV board using the `RP2040FPV` target in Betaflight. The firmware is configured for a 1S battery, SX1280 ELRS radio, and BMI270 sensor.
 
 ```shell
 git clone --recurse-submodules https://github.com/lassezuengel/betaflight
@@ -128,21 +128,21 @@ make -j4 RP2040FPV
   The target `.elf` file will be located in `obj/betaflight_<version>_RP2040_RP2040FPV.uf2`.
 
 #### Flashing the FCU
-
+´´´´
 1. Disconnect power/USB or hold reset
 2. Hold the board’s BOOTSEL button or pull the RP2040 QSPI_SS boot-select signal low.
 3. Connect USB while continuing to hold BOOTSEL, release reset.
 4. A USB drive named RPI-RP2 should appear, you can now release BOOTSEL.
-5. Copy the generated .uf2 file onto that drive.
+5. Copy the generated `.uf2` file onto that drive.
 6. The drive disconnects automatically and the FC reboots into Betaflight.
 
-Use the default/v3 image when your radio is running ExpressLRS 3.x. Use the v4 build when it is running ExpressLRS 4.x.
+Use the `default/v3` image when your radio is running ExpressLRS 3.x. Use the `v4` build when it is running ExpressLRS 4.x.
 
 ### AM32 bootloader
 
-Use the official AM32 bootloader to flash the STM32G071 MCUs on the ESC-FPV board. The bootloader is available from [AM32's GitHub](https://github.com/AM32/AM32-Bootloader). You will need a bootloader compatible with our `G071` MCU that uses pin `PB4` as the communication pin. Consider using `AM32_G071_BOOTLOADER_PB4_V19.hex`.
+Use the official AM32 bootloader to flash the `STM32G071` MCUs on the ESC-FPV board. The bootloader is available from [AM32's GitHub](https://github.com/AM32/AM32-Bootloader). You will need a bootloader compatible with our `G071` MCU that uses pin `PB4` as the communication pin. Consider using `AM32_G071_BOOTLOADER_PB4_V19.hex`.
 
-For flashing the bootloader to each STM32, you can use any old ST-Link V2 programmer or a SWD programmer of your choice. The ESC-FPV board has test points for SWD programming, which are accessible from the top side of the board. Power the ESC-FPV board with a 1S battery or a bench PSU, and connect the SWD programmer to the test points (as well as `GND` and `+3V3`). Then use the STM32CubeProgrammer or any other SWD programmer software to flash the bootloader to each of the four STM32s.
+For flashing the bootloader to each STM32, you can use any old ST-Link V2 programmer or a SWD programmer of your choice. The ESC-FPV board has test points for SWD programming, which are accessible from the top side of the board. Power the ESC-FPV board with a 1S battery or a bench PSU, and connect the SWD programmer to the test points (as well as `GND` and `+3V3`). Then use the STM32CubeProgrammer or any other SWD programmer software to flash the bootloader. Repeat all this for each of the four STM32s on the ESC-FPV board.
 
 <p align="center">
   <a href="assets/E-assembly.png"><img src="assets/G071_bootloader_flashing.png" width="600" alt="Test points / contact pads for flashing the bootloader to STM32s"></a>
