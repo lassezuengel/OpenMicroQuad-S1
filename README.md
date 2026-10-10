@@ -98,12 +98,98 @@ The ESC project is organized as follows:
 
 ## Firmware
 
-- Adapted Betaflight firmware: TBA
-- Adapted AM32 firmware: TBA
+In order to fly the OpenMicroQuad 1S, you need firmware for both the FCU and ESC boards. The FCU runs a version of Betaflight extended to support the RP2040 platform, while each ESC (STM32) runs on modified AM32 firmware.
 
-### Flashing, Configuration, and Setup
+### Betaflight firmware
 
-TBA
+If you don't want to build the Betaflight firmware yourself, see the `/bin` directory for prebuilt firmware for the RP2040-FPV board. The firmware is configured for a 1S battery, SX1280 ELRS radio, and BMI270 sensor. Possibly outdated, but should work fine for basic flight.
+
+#### Building Betaflight for the RP2040-FPV board
+
+See the fork [here](https://github.com/lassezuengel/betaflight). You can build the firmware for the RP2040-FPV board using the `RP2040-FPV` target in Betaflight. The firmware is configured for a 1S battery, SX1280 ELRS radio, and BMI270 sensor.
+
+```shell
+git clone --recurse-submodules https://github.com/lassezuengel/betaflight
+cd betaflight
+
+git submodule update --init --recursive
+
+make SDK=pico_sdk platform-sdk-hydrate
+make SDK=pico_sdk platform-tools-install
+make configs
+```
+
+After that, you can build the firmware for the RP2040-FPV board:
+
+```shell
+make -j4 RP2040FPV
+```
+´
+  The target `.elf` file will be located in `obj/betaflight_<version>_RP2040_RP2040FPV.uf2`.
+
+#### Flashing the FCU
+
+1. Disconnect power/USB or hold reset
+2. Hold the board’s BOOTSEL button or pull the RP2040 QSPI_SS boot-select signal low.
+3. Connect USB while continuing to hold BOOTSEL, release reset.
+4. A USB drive named RPI-RP2 should appear, you can now release BOOTSEL.
+5. Copy the generated .uf2 file onto that drive.
+6. The drive disconnects automatically and the FC reboots into Betaflight.
+
+Use the default/v3 image when your radio is running ExpressLRS 3.x. Use the v4 build when it is running ExpressLRS 4.x.
+
+### AM32 bootloader
+
+Use the official AM32 bootloader to flash the STM32G071 MCUs on the ESC-FPV board. The bootloader is available from [AM32's GitHub](https://github.com/AM32/AM32-Bootloader). You will need a bootloader compatible with our `G071` MCU that uses pin `PB4` as the communication pin. Consider using `AM32_G071_BOOTLOADER_PB4_V19.hex`.
+
+For flashing the bootloader to each STM32, you can use any old ST-Link V2 programmer or a SWD programmer of your choice. The ESC-FPV board has test points for SWD programming, which are accessible from the top side of the board. Power the ESC-FPV board with a 1S battery or a bench PSU, and connect the SWD programmer to the test points (as well as `GND` and `+3V3`). Then use the STM32CubeProgrammer or any other SWD programmer software to flash the bootloader to each of the four STM32s.
+
+<p align="center">
+  <a href="assets/E-assembly.png"><img src="assets/G071_bootloader_flashing.png" width="600" alt="Test points / contact pads for flashing the bootloader to STM32s"></a>
+  <br>
+</p>
+
+We recommend using pogo pins to connect to the test points. Of course, you can also (temporarily) solder wires to the test points if needed. You only have to do this once (per STM32) to flash the bootloader. After that, you can use the AM32 online configurator to flash the firmware to all four STM32s at once.
+
+### AM32 firmware
+
+Again, if you don't want to build the AM32 firmware yourself, see the `/bin` directory for prebuilt firmware for the ESC-FPV board. The firmware is configured for a 1S battery and four AM32 channels.
+
+#### Building AM32 firmware for the ESC-FPV board
+
+If you want to build the AM32 firmware for the ESC-FPV board yourself, you can use our fork of AM32.
+
+Clone our AM32 fork:
+
+```shell
+git clone --branch main --recurse-submodules https://github.com/lassezuengel/AM32.git
+cd AM32
+git submodule update --init --recursive
+```
+
+Update your system and install the required dependencies:
+
+```shell
+sudo apt-get update
+sudo apt-get install -y git make wget tar python3
+```
+
+Install the ARM SDK (if you haven't already):
+
+```shell
+make arm_sdk_install
+```
+
+Finally, build the firmware for the ESC-FPV board:
+
+```shell
+make clean
+make ESC_FPV_G071
+```
+
+#### Flashing the ESC
+
+The output can be found in `obj/AM32_ESC_FPV_G071_2.21.bin`. If you have already installed the AM32 bootloader for each of the four STM32G071 MCUs, you can flash the firmware using the [AM32 online configurator](https://am32.ca). Firmware upgrading is done via DShot commands using the FCU, so you can just connect the stack to your computer via USB, power the ESC board using a battery or PSU, and use the AM32 configurator to flash the firmware to all four ESC channels.
 
 ## Measurements
 
