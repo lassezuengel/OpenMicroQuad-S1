@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="assets/OMQ-1S-small.svg" width="220" alt="OpenMicroQuad 1S logo">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/OMQ-1S-small-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/OMQ-1S-small.svg">
+    <img src="assets/OMQ-1S-small.svg" width="220" alt="OpenMicroQuad 1S logo">
+  </picture>
 </p>
 
 <h1 align="center">OpenMicroQuad 1S</h1>
