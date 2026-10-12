@@ -1,9 +1,6 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/OMQ-1S-small-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/OMQ-1S-small.svg">
-    <img src="assets/OMQ-1S-small.svg" width="220" alt="OpenMicroQuad 1S logo">
-  </picture>
+  <a href="assets/OMQ-1S-small.svg#gh-light-mode-only"><img src="assets/OMQ-1S-small.svg" width="220" alt="OpenMicroQuad 1S logo"></a>
+  <a href="assets/OMQ-1S-small-dark.svg#gh-dark-mode-only"><img src="assets/OMQ-1S-small-dark.svg" width="220" alt="OpenMicroQuad 1S logo"></a>
 </p>
 
 <h1 align="center">OpenMicroQuad 1S</h1>
