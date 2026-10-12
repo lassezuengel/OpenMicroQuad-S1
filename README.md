@@ -9,6 +9,7 @@
   <a href="#hardware-overview">Hardware</a> ·
   <a href="#two-board-architecture">Architecture</a> ·
   <a href="#design-files">Design files</a> ·
+  <a href="#manufacturing">Manufacturing</a> ·
   <a href="#firmware">Firmware</a> ·
   <a href="#measurements">Measurements</a> ·
   <a href="#limitations">Limitations</a>
@@ -110,6 +111,16 @@ The ESC project is organized as follows:
 | `Interfacing.SchDoc` | FCU stack headers, per-channel SWD programming test points, and repeated motor connections |
 | `MotorConnection.SchDoc` | Three-phase connector, repeated once per motor |
 | `PCB.PcbDoc` | Combined four-channel ESC board layout |
+
+## Manufacturing
+
+Both boards use **four layers**, with relatively relaxed PCB manufacturing requirements. The exact stackup isn't critical for the **ESC board**. The **FCU board** needs more care: it uses differential pairs with **90 Ω controlled differential impedance**, and - more critically - a **50 Ω RF transmission line**. For the FCU, follow the stackup below, including the layer thicknesses, dielectric materials and dielectric constants (Dk), since the trace geometry is designed around those values.
+
+<p align="center">
+  <a href="assets/stackup.png"><img src="assets/stackup.png" width="668" alt="Four-layer PCB stackup showing copper and dielectric thicknesses, materials, dielectric constants and loss factors"></a>
+  <br>
+  <sub>Layer stack, copper thicknesses and dielectric properties used for the design.</sub>
+</p>
 
 ## Firmware
 
