@@ -87,7 +87,7 @@ The boards share **VBAT and GND**, while their regulated supplies remain separat
 | Board | Altium project | Schematic and PCB PDF | Additional outputs |
 | --- | --- | --- | --- |
 | FCU | [RP2040-FPV.PrjPcb][fcu-project] | [RP2040-FPV.pdf][fcu-pdf] | **TODO** - no separate manufacturing archive or BOM included yet |
-| ESC | [ESC-FPV.PrjPcb][esc-project] | [ESC-FPV.pdf][esc-pdf] | [Manufacturing ZIP][esc-outputs]: Gerber X2, drill files/reports, BOM, pick-and-place, and DRC reports |
+| ESC | [ESC-FPV.PrjPcb][esc-project] | [ESC-FPV.pdf][esc-pdf] | **TODO** - no separate manufacturing archive or BOM included yet |
 
 The mechanical model is available as [Drone 1S.step](mcad/Drone%201S.step).
 
@@ -166,7 +166,7 @@ Use the `default/v3` image when your radio is running ExpressLRS 3.x. Use the `v
 
 ### AM32 bootloader
 
-Use the official AM32 bootloader to flash the `STM32G071` MCUs on the ESC-FPV board. The bootloader is available from [AM32's GitHub](https://github.com/AM32/AM32-Bootloader). You will need a bootloader compatible with our `G071` MCU that uses pin `PB4` as the communication pin. Consider using `AM32_G071_BOOTLOADER_PB4_V19.hex`.
+Use the official AM32 bootloader to flash the `STM32G071` MCUs on the ESC-FPV board. The bootloader is available from [AM32's GitHub](https://github.com/am32-firmware/AM32-bootloader). You will need a bootloader compatible with our `G071` MCU that uses pin `PB4` as the communication pin. Consider using `AM32_G071_BOOTLOADER_PB4_V19.hex`.
 
 For flashing the bootloader to each STM32, you can use any old ST-Link V2 programmer or a SWD programmer of your choice. The ESC-FPV board has test points for SWD programming, which are accessible from the top side of the board. Power the ESC-FPV board with a 1S battery or a bench PSU, and connect the SWD programmer to the test points (as well as `GND` and `+3V3`). Then use the STM32CubeProgrammer or any other SWD programmer software to flash the bootloader. Repeat all this for each of the four STM32s on the ESC-FPV board.
 
@@ -267,8 +267,8 @@ This source describes Open Hardware. You may redistribute and modify it and make
 
 Third-party firmware, libraries, and other third-party materials remain subject to their respective licenses.
 
-[fcu-project]: ecad/RP2040-FPV%20%2810.10.2026%2006-36-21%29/RP2040-FPV/RP2040-FPV.PrjPcb
-[fcu-pdf]: ecad/RP2040-FPV%20%2810.10.2026%2006-36-21%29/RP2040-FPV/RP2040-FPV.pdf
-[esc-project]: ecad/ESC-FPV%20%2810.10.2026%2006-37-44%29/ESC-FPV/ESC-FPV.PrjPcb
-[esc-pdf]: ecad/ESC-FPV%20%2810.10.2026%2006-37-44%29/ESC-FPV/ESC-FPV.pdf
-[esc-outputs]: ecad/ESC-FPV%20%2810.10.2026%2006-37-44%29/ESC-FPV/Project%20Outputs%20for%20ESC-FPV.zip
+[fcu-project]: ecad/RP2040-FPV/RP2040-FPV/RP2040-FPV.PrjPcb
+[fcu-pdf]: ecad/RP2040-FPV/RP2040-FPV/RP2040-FPV.pdf
+[esc-project]: ecad/ESC-FPV/ESC-FPV/ESC-FPV.PrjPcb
+[esc-pdf]: ecad/ESC-FPV/ESC-FPV/ESC-FPV.pdf
+[esc-outputs]: ecad/ESC-FPV/ESC-FPV/ESC-FPV.OutJob
