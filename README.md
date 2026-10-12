@@ -1,4 +1,17 @@
-# OpenMicroQuad 1S
+<p align="center">
+  <img src="assets/OMQ-1S-small.svg" width="220" alt="OpenMicroQuad 1S logo">
+</p>
+
+<h1 align="center">OpenMicroQuad 1S</h1>
+
+<p align="center">
+  <a href="#hardware-overview">Hardware</a> ·
+  <a href="#two-board-architecture">Architecture</a> ·
+  <a href="#design-files">Design files</a> ·
+  <a href="#firmware">Firmware</a> ·
+  <a href="#measurements">Measurements</a> ·
+  <a href="#limitations">Limitations</a>
+</p>
 
 An experimental, custom-designed micro-quadcopter built around two stacked PCBs: a flight controller (FCU) with an integrated ExpressLRS (ELRS) radio transceiver and Bosch inertial sensor, and an AM32-based 4-in-1 electronic speed controller (ESC) that plugs onto the FCU from above. Both PCBs were designed in Altium Designer for a single-cell LiPo/LiHV battery.
 
@@ -10,6 +23,8 @@ This repository documents the **1S design**, including its hardware files and li
   <strong>Board Stack</strong>
   <br>
   <sub>The 4-in-1 ESC plugs onto the flight controller from above.</sub>
+</p>
+
 <table>
   <tr>
     <td align="center" width="50%">
@@ -28,8 +43,6 @@ This repository documents the **1S design**, including its hardware files and li
     </td>
   </tr>
 </table>
-</p>
-
 
 ## Hardware overview
 
@@ -71,8 +84,10 @@ The boards share **VBAT and GND**, while their regulated supplies remain separat
 
 | Board | Altium project | Schematic and PCB PDF | Additional outputs |
 | --- | --- | --- | --- |
-| FCU | [RP2040-FPV.PrjPcb][fcu-project] | [RP2040-FPV.pdf][fcu-pdf] | No separate manufacturing archive or BOM included |
-| ESC | [ESC-FPV.PrjPcb][esc-project] | [ESC-FPV.pdf][esc-pdf] | [Project Outputs for ESC-FPV.zip][esc-outputs]: Gerber X2 files, drill layers/reports, CSV BOM, pick-and-place CSV, and archived DRC reports |
+| FCU | [RP2040-FPV.PrjPcb][fcu-project] | [RP2040-FPV.pdf][fcu-pdf] | **TODO** - no separate manufacturing archive or BOM included yet |
+| ESC | [ESC-FPV.PrjPcb][esc-project] | [ESC-FPV.pdf][esc-pdf] | [Manufacturing ZIP][esc-outputs]: Gerber X2, drill files/reports, BOM, pick-and-place, and DRC reports |
+
+The mechanical model is available as [Drone 1S.step](mcad/Drone%201S.step).
 
 The FCU project is organized as follows:
 
@@ -94,7 +109,6 @@ The ESC project is organized as follows:
 | `Interfacing.SchDoc` | FCU stack headers, per-channel SWD programming test points, and repeated motor connections |
 | `MotorConnection.SchDoc` | Three-phase connector, repeated once per motor |
 | `PCB.PcbDoc` | Combined four-channel ESC board layout |
-
 
 ## Firmware
 
@@ -124,11 +138,11 @@ After that, you can build the firmware for the RP2040-FPV board:
 ```shell
 make -j4 RP2040FPV
 ```
-´
-  The target `.elf` file will be located in `obj/betaflight_<version>_RP2040_RP2040FPV.uf2`.
+
+The generated `.uf2` file will be located in `obj/betaflight_<version>_RP2040_RP2040FPV.uf2`.
 
 #### Flashing the FCU
-´´´´
+
 1. Disconnect power/USB or hold reset
 2. Hold the board’s BOOTSEL button or pull the RP2040 QSPI_SS boot-select signal low.
 3. Connect USB while continuing to hold BOOTSEL, release reset.
@@ -145,8 +159,9 @@ Use the official AM32 bootloader to flash the `STM32G071` MCUs on the ESC-FPV bo
 For flashing the bootloader to each STM32, you can use any old ST-Link V2 programmer or a SWD programmer of your choice. The ESC-FPV board has test points for SWD programming, which are accessible from the top side of the board. Power the ESC-FPV board with a 1S battery or a bench PSU, and connect the SWD programmer to the test points (as well as `GND` and `+3V3`). Then use the STM32CubeProgrammer or any other SWD programmer software to flash the bootloader. Repeat all this for each of the four STM32s on the ESC-FPV board.
 
 <p align="center">
-  <a href="assets/E-assembly.png"><img src="assets/G071_bootloader_flashing.png" width="600" alt="Test points / contact pads for flashing the bootloader to STM32s"></a>
+  <a href="assets/G071_bootloader_flashing.png"><img src="assets/G071_bootloader_flashing.png" width="600" alt="Test points / contact pads for flashing the bootloader to STM32s"></a>
   <br>
+  <sub>SWD contact pads for the four STM32G071 ESC controllers.</sub>
 </p>
 
 We recommend using pogo pins to connect to the test points. Of course, you can also (temporarily) solder wires to the test points if needed. You only have to do this once (per STM32) to flash the bootloader. After that, you can use the AM32 online configurator to flash the firmware to all four STM32s at once.
@@ -219,14 +234,14 @@ The tradeoff is more PCB mass and board space than you'd normally see on a tinyw
 A goal of this project was to simply test how well an RP2040 would perform in a drone application (and add support to Betaflight). The RP2040 offers less processing headroom for demanding flight-control configurations than more powerful MCUs, and it has no built-in floating-point unit. The RP2040 is still a very capable MCU, but it may not be the best choice for a high-performance flight controller. We can easily fly drones in acro mode with 1.6kHz PID loops, but we may run into performance issues with more complex flight-control algorithms, higher loop rates, or when also using the accelerometer (e.g., when using angle or horizon modes). 3.2kHz PID loops are out of the question. The RP2350 already has Betaflight firmware support, and it would be interesting to see how well it performs in a similar drone application.
 
 ### Thermal performance
-´#
+
 The ESC is designed to handle 8A continuously, and the half bridges handle this with ease. However, the 1.25mm PicoBlade connectors (taken from the Air75 design for compatibility) are the bottleneck here, and we might want to consider soldering the motors to the ESC directly. This is not strictly necessary even with higher current draws and also a bit inconvenient, but we can certainly add the SMD pads even if we don't use them.
 
 ### Are we FPV yet?
 
 Hell nah - No camera, OSD, and VTX yet. We may want to add a small camera and VTX in the future - either as a separate module or integrated into the main FCU PCB. For now, we're limited to LoS flight :)
 
-### Future Directions
+### Future directions
 
 There are two main directions for future development of this project: improving the 1S design, or moving to a 2S design. Improving the 1S design is easy because we only really need to combine our two PCBs into a single 5-in-1 PCB, which would reduce weight and board space, and then design a lighter frame. At that point, we would basically be redesigning existing 1S tinywhoops.
 
@@ -239,3 +254,9 @@ This project's hardware design files and accompanying documentation are licensed
 This source describes Open Hardware. You may redistribute and modify it and make products using it under the terms of CERN-OHL-P-2.0. It is provided without any express or implied warranty; see the license for the applicable conditions.
 
 Third-party firmware, libraries, and other third-party materials remain subject to their respective licenses.
+
+[fcu-project]: ecad/RP2040-FPV%20%2810.10.2026%2006-36-21%29/RP2040-FPV/RP2040-FPV.PrjPcb
+[fcu-pdf]: ecad/RP2040-FPV%20%2810.10.2026%2006-36-21%29/RP2040-FPV/RP2040-FPV.pdf
+[esc-project]: ecad/ESC-FPV%20%2810.10.2026%2006-37-44%29/ESC-FPV/ESC-FPV.PrjPcb
+[esc-pdf]: ecad/ESC-FPV%20%2810.10.2026%2006-37-44%29/ESC-FPV/ESC-FPV.pdf
+[esc-outputs]: ecad/ESC-FPV%20%2810.10.2026%2006-37-44%29/ESC-FPV/Project%20Outputs%20for%20ESC-FPV.zip
