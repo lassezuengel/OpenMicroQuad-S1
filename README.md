@@ -117,9 +117,9 @@ The ESC project is organized as follows:
 Both boards use **four layers**, with relatively relaxed PCB manufacturing requirements. The exact stackup isn't critical for the **ESC board**. The **FCU board** needs more care: it uses differential pairs with **90 Ω controlled differential impedance**, and - more critically - a **50 Ω RF transmission line**. For the FCU, follow the stackup below, including the layer thicknesses, dielectric materials and dielectric constants (Dk), since the trace geometry is designed around those values.
 
 <p align="center">
-  <a href="assets/stackup.png"><img src="assets/stackup.png" width="668" alt="Four-layer PCB stackup showing copper and dielectric thicknesses, materials, dielectric constants and loss factors"></a>
+  <a href="assets/stackup.svg"><img src="assets/stackup.svg" width="800" alt="Four-layer PCB stackup with the HTML export's layout and colors, showing materials, thicknesses and dielectric properties"></a>
   <br>
-  <sub>Layer stack, copper thicknesses and dielectric properties used for the design.</sub>
+  <sub>Layer stack, copper thicknesses and dielectric properties. <a href="assets/stackup.html">HTML source</a>.</sub>
 </p>
 
 ## Firmware

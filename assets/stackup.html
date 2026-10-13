@@ -1,0 +1,104 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Altium PCB Layer Stackup</title>
+  <style>
+    :root {
+      --header: #484848;
+      --mask: #276738;
+      --copper: #c97e4d;
+      --dielectric: #807c69;
+      --grid: #353535;
+      --label: #ededed;
+      --dim: #d5d5d5;
+      --font: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: #2c2c2c; }
+    body { margin: 0; padding: 16px; font-family: var(--font); color: var(--label); }
+    .layer-stack {
+      border: 1px solid var(--grid);
+      overflow-x: auto;
+      width: max-content;
+      max-width: 100%;
+      box-shadow: 0 0 0 1px #262626;
+    }
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 1296px;
+      font-size: 18px;
+      font-weight: 400;
+    }
+    col.num { width: 48px; }
+    col.name { width: 196px; }
+    col.material { width: 186px; }
+    col.type { width: 200px; }
+    col.weight { width: 192px; }
+    col.thickness { width: 192px; }
+    col.dk { width: 146px; }
+    col.df { width: 136px; }
+    th, td {
+      border-right: 1px solid var(--grid);
+      border-bottom: 1px solid var(--grid);
+      text-align: left;
+      height: 41px;
+      padding: 6px 9px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+    }
+    th:last-child,td:last-child {border-right: 0;}
+    tbody tr:last-child td {border-bottom: 0;}
+    th { height: 35px; background: var(--header); font-weight: 400; }
+    th:first-child { text-align: left; }
+    .green { background: var(--mask); }
+    .copper { background: var(--copper); }
+    .dielectric { background: var(--dielectric); }
+    .number {padding-left: 11px;}
+    .material-cell { position:relative; padding-right: 37px; }
+    .more { position:absolute; right: 7px; top:50%; transform:translateY(-50%); height:20px; min-width:24px; line-height:15px; border-radius:4px; background:#666; border:1px solid #5b5b5b; color:#ddd; text-align:center; font-size:15px; letter-spacing:1px; }
+    .copper .more {background:#5b5b5b; color:#ccc;}
+    .selected {outline:2px solid #2a8b92;outline-offset:-2px;}
+    .selected td:first-child {box-shadow:inset 5px 0 0 #4faeb7;}
+    @media print {
+      @page { size: landscape; margin: 12mm; }
+      body {padding:0; print-color-adjust:exact; -webkit-print-color-adjust:exact; background:white;}
+      .layer-stack{ width:100%; max-width:none; overflow:visible; box-shadow:none; }
+      table { width:100%; font-size:12px; }
+      th,td { height:27px; padding:3px 5px; }
+      .more { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layer-stack" role="region" aria-label="Four-layer PCB stackup from Altium Designer" tabindex="0">
+    <table aria-label="Altium Designer PCB layer stackup">
+      <colgroup>
+        <col class="num"><col class="name"><col class="material"><col class="type"><col class="weight"><col class="thickness"><col class="dk"><col class="df">
+      </colgroup>
+      <thead>
+        <tr><th scope="col">#</th><th scope="col">Name</th><th scope="col">Material</th><th scope="col">Type</th><th scope="col">Weight</th><th scope="col">Thickness</th><th scope="col">Dk</th><th scope="col">Df</th></tr>
+      </thead>
+      <tbody>
+        <tr class="green"><td></td><td>Top Overlay</td><td></td><td>Overlay</td><td></td><td></td><td></td><td></td></tr>
+        <tr class="green"><td></td><td>Top Solder</td><td class="material-cell">Solder Resist<span class="more" aria-hidden="true">···</span></td><td>Solder Mask</td><td></td><td>0.01016mm</td><td>3.5</td><td></td></tr>
+        <tr class="copper"><td class="number">1</td><td>Top Layer</td><td class="material-cell">CF-004<span class="more" aria-hidden="true">···</span></td><td>Signal</td><td>1oz</td><td>0.035mm</td><td></td><td></td></tr>
+        <tr class="dielectric"><td></td><td>Dielectric 2</td><td class="material-cell">PP-006<span class="more" aria-hidden="true">···</span></td><td>Prepreg</td><td></td><td>0.14mm</td><td>4.1</td><td>0.02</td></tr>
+        <tr class="copper"><td class="number">2</td><td>Inner GND 1</td><td class="material-cell">CF-004<span class="more" aria-hidden="true">···</span></td><td>Signal</td><td>1oz</td><td>0.035mm</td><td></td><td></td></tr>
+        <tr class="dielectric"><td></td><td>Dielectric 1</td><td class="material-cell">FR-4<span class="more" aria-hidden="true">···</span></td><td>Dielectric</td><td></td><td>1.2mm</td><td>4.8</td><td></td></tr>
+        <tr class="copper"><td class="number">3</td><td>Inner GND 2</td><td class="material-cell">CF-004<span class="more" aria-hidden="true">···</span></td><td>Signal</td><td>1oz</td><td>0.035mm</td><td></td><td></td></tr>
+        <tr class="dielectric"><td></td><td>Dielectric 3</td><td class="material-cell">PP-006<span class="more" aria-hidden="true">···</span></td><td>Prepreg</td><td></td><td>0.14mm</td><td>4.1</td><td>0.02</td></tr>
+        <tr class="copper"><td class="number">4</td><td>Bottom Layer</td><td class="material-cell">CF-004<span class="more" aria-hidden="true">···</span></td><td>Signal</td><td>1oz</td><td>0.035mm</td><td></td><td></td></tr>
+        <tr class="green"><td></td><td>Bottom Solder</td><td class="material-cell">Solder Resist<span class="more" aria-hidden="true">···</span></td><td>Solder Mask</td><td></td><td>0.01016mm</td><td>3.5</td><td></td></tr>
+        <tr class="green"><td></td><td>Bottom Overlay</td><td></td><td>Overlay</td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
