@@ -19,25 +19,43 @@ An experimental, custom-designed micro-quadcopter built around two stacked PCBs:
 
 This repository documents the **1S design**, including its hardware files and limitations.
 
-<p align="center">
-  <a href="assets/E-assembly.png"><img src="assets/E-assembly.png" width="600" alt="3D render of the assembled PCB stack, with the ESC above the FCU"></a>
-  <br>
-  <strong>Board Stack</strong>
-  <br>
-  <sub>The 4-in-1 ESC plugs onto the flight controller from above.</sub>
-</p>
+<table>
+  <tr>
+    <td align="center" valign="top" width="50%">
+      <a href="assets/upscale%20overview.png"><img src="assets/upscale%20overview.png" width="600" alt="Overview of the assembled OpenMicroQuad 1S with its PCB stack, four motors and 3D-printed frame"></a>
+      <br>
+      <strong>Complete build</strong>
+      <br>
+      <sub>The assembled 1S quad with its FCU and ESC stack.</sub>
+    </td>
+    <td align="center" valign="top" width="50%">
+      <a href="assets/upscale%20arm.png"><img src="assets/upscale%20arm.png" width="600" alt="Close-up of the motor, propeller, printed arm and stacked PCBs"></a>
+      <br>
+      <strong>Arm detail</strong>
+      <br>
+      <sub>Motor mount, printed frame and board stack.</sub>
+    </td>
+  </tr>
+</table>
 
 <table>
   <tr>
-    <td align="center" width="50%">
-      <a href="assets/FCU.png"><img src="assets/FCU.png" width="400" alt="3D render of the FCU board with its RP2040, SX1280 radio, and BMI270 sensor"></a>
+    <td align="center" valign="top" width="33%">
+      <a href="assets/FCU.png"><img src="assets/FCU.png" width="280" alt="3D render of the FCU board with its RP2040, SX1280 radio, and BMI270 sensor"></a>
       <br>
-      <strong>Flight controller</strong>
+      <strong>FCU</strong>
       <br>
       <sub>RP2040, SX1280 ELRS radio, and Bosch BMI270.</sub>
     </td>
-    <td align="center" width="50%">
-      <a href="assets/ESC.png"><img src="assets/ESC.png" width="400" alt="3D render of the four-channel ESC board and its motor connectors"></a>
+    <td align="center" valign="top" width="33%">
+      <a href="assets/E-assembly.png"><img src="assets/E-assembly.png" width="280" alt="3D render of the assembled PCB stack, with the ESC above the FCU"></a>
+      <br>
+      <strong>Board stack</strong>
+      <br>
+      <sub>The ESC plugs onto the FCU from above.</sub>
+    </td>
+    <td align="center" valign="top" width="33%">
+      <a href="assets/ESC.png"><img src="assets/ESC.png" width="280" alt="3D render of the four-channel ESC board and its motor connectors"></a>
       <br>
       <strong>4-in-1 ESC</strong>
       <br>
@@ -84,10 +102,10 @@ The boards share **VBAT and GND**, while their regulated supplies remain separat
 
 ## Design files
 
-| Board | Altium project | Schematic and PCB PDF | Additional outputs |
-| --- | --- | --- | --- |
-| FCU | [RP2040-FPV.PrjPcb][fcu-project] | [RP2040-FPV.pdf][fcu-pdf] | **TODO** - no separate manufacturing archive or BOM included yet |
-| ESC | [ESC-FPV.PrjPcb][esc-project] | [ESC-FPV.pdf][esc-pdf] | **TODO** - no separate manufacturing archive or BOM included yet |
+| Board | Altium project | Schematic and PCB PDF |
+| --- | --- | --- |
+| FCU | [RP2040-FPV.PrjPcb][fcu-project] | [RP2040-FPV.pdf][fcu-pdf] |
+| ESC | [ESC-FPV.PrjPcb][esc-project] | [ESC-FPV.pdf][esc-pdf] |
 
 The mechanical model is available as [Drone 1S.step](mcad/Drone%201S.step).
 
@@ -119,8 +137,14 @@ Both boards use **four layers**, with relatively relaxed PCB manufacturing requi
 <p align="center">
   <a href="assets/stackup.svg"><img src="assets/stackup.svg" width="800" alt="Four-layer PCB stackup with the HTML export's layout and colors, showing materials, thicknesses and dielectric properties"></a>
   <br>
-  <sub>Layer stack, copper thicknesses and dielectric properties. <a href="assets/stackup.html">HTML source</a>.</sub>
+  <sub>Layer stack, copper thicknesses and dielectric properties.</sub>
 </p>
+
+### Mechanical assembly
+
+The FCU is screwed against the 3D-printed frame using M2 screws and polymer standoffs (washers), the ESC then simply plugs onto the FCU through four six-pin headers. The frame is designed to be printed in one piece, the battery can be mounted below using zip ties, and the motors are mounted to the frame using M1.6 screws.
+
+We've successfully flown (and crashed) the drone with a 3D-printed frame, made from PLA using an FDM printer. The poor isotropy of FDM-printed parts (layer adhesion) means that the frame has some weak points, however, and some structural elements can break in a bad crash. The frame shown in the top photos is made from PA12S Nylon using MJF (Multi Jet Fusion) printing, which is much more isotropic and durable (also gorgeous). SLS printing is another great option, and the more available SLA printing is probably fine as well, as long as the resin is strong enough.
 
 ## Firmware
 
